@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Booking Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Added proper sidebar styling */
+        .sidebar {
+            min-height: 100vh;
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            padding-top: 20px;
+            position: fixed;
+            left: 0;
+        }
+
+        .sidebar-brand {
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-brand a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sidebar-brand span {
+            color: #17a2b8;
+        }
+
+        .sidebar-menu ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #17a2b8;
+        }
+
+        .sidebar-menu a {
+            padding: 10px 20px;
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+        }
+
+        /* Content area - added margin to accommodate sidebar */
+        .col.py-3 {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .booking-card {
+            transition: all 0.3s ease;
+            border-left: 5px solid #6c757d;
+        }
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .booking-card.pending {
+            border-left-color: #ffc107;
+        }
+        .booking-card.completed {
+            border-left-color: #28a745;
+        }
+        .booking-card.cancelled {
+            border-left-color: #dc3545;
+        }
+        .dashboard-stat {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, #4e73df, #224abe);
+        }
+        .bg-gradient-success {
+            background: linear-gradient(45deg, #1cc88a, #13855c);
+        }
+        .bg-gradient-warning {
+            background: linear-gradient(45deg, #f6c23e, #dda20a);
+        }
+        .bg-gradient-danger {
+            background: linear-gradient(45deg, #e74a3b, #be2617);
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <a href="admin-dashboard.html">SriLankan<span>Airlines</span></a>
+            </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="admin-users.html"><i class="fas fa-users"></i> User Management</a>
+                    </li>
+                    <li class="active">
+                        <a href="admin-bookings.html"><i class="fas fa-ticket-alt"></i> Bookings</a>
+                    </li>
+                    <li>
+                        <a href="admin-flights.html"><i class="fas fa-plane"></i> Flight Schedule</a>
+                    </li>
+                    <li>
+                        <a href="packages.html"><i class="fas fa-plane"></i>Package Management</a>
+                    </li>
+                    <li>
+                        <a href="admin-email.html"><i class="fas fa-envelope"></i> Email Notifications</a>
+                    </li>
+                    <li>
+                        <a href="arplanes.html"><i class="fas fa-plane"></i> Airplanes</a>
+                    </li>
+                    <li>
+                        <a href="admin-settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li>
+                        <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- Main Content -->
+        <div class="col py-3">
+            <h2 class="mb-4">Booking Management</h2>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body dashboard-stat bg-gradient-primary">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">Total Bookings</div>
+                                    <div class="h5 mb-0 font-weight-bold" id="totalBookings">215</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body dashboard-stat bg-gradient-success">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">Completed</div>
+                                    <div class="h5 mb-0 font-weight-bold" id="completedBookings">142</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body dashboard-stat bg-gradient-warning">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">Pending</div>
+                                    <div class="h5 mb-0 font-weight-bold" id="pendingBookings">42</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clock fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body dashboard-stat bg-gradient-danger">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">Cancelled</div>
+                                    <div class="h5 mb-0 font-weight-bold" id="cancelledBookings">31</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-times-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Search & Filter</h6>
+                </div>
+                <div class="card-body">
+                    <form id="filterForm" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="searchQuery" class="form-label">Search</label>
+                            <input type="text" class="form-control" id="searchQuery" placeholder="Search by ID, name, etc.">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="statusFilter" class="form-label">Payment Status</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dateFrom" class="form-label">Date From</label>
+                            <input type="date" class="form-control" id="dateFrom">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dateTo" class="form-label">Date To</label>
+                            <input type="date" class="form-control" id="dateTo">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bookings List -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Bookings</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Export to Excel</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf me-2"></i>Export to PDF</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sync me-2"></i>Refresh List</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="bookingsTable">
+                            <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>User</th>
+                                <th>Flight</th>
+                                <th>Passenger</th>
+                                <th>Package</th>
+                                <th>Booking Date</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bookingTableBody">
+                            <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                        <div id="pagination" class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <span>Showing <span id="showing">1-10</span> of <span id="total">215</span> entries</span>
+                            </div>
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Detail Modal -->
+<div class="modal fade" id="bookingDetailModal" tabindex="-1" aria-labelledby="bookingDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="bookingDetailModalLabel">Booking Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Booking ID</label>
+                            <div id="detailBookingId"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">User Information</label>
+                            <div id="detailUserInfo"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Passenger Name</label>
+                            <div id="detailPassengerName"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Package Name</label>
+                            <div id="detailPackageName"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Flight Information</label>
+                            <div id="detailFlightInfo"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Seat Number</label>
+                            <div id="detailSeatNumber"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Booking Date</label>
+                            <div id="detailBookingDate"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Amount</label>
+                            <div id="detailAmount"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentStatus" class="form-label fw-bold">Payment Status</label>
+                    <select class="form-select" id="paymentStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmationEmail" class="form-label fw-bold">Send Confirmation Email</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="sendEmail" checked>
+                        <label class="form-check-label" for="sendEmail">Send email notification</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="updateBookingBtn">Update Booking</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load bookings when page loads
+        loadBookings();
+
+        // Form submit event
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            loadBookings();
+        });
+
+        // Update booking button click
+        document.getElementById('updateBookingBtn').addEventListener('click', function() {
+            const bookingId = document.getElementById('detailBookingId').getAttribute('data-id');
+            const status = document.getElementById('paymentStatus').value;
+            const sendEmail = document.getElementById('sendEmail').checked;
+
+            updateBooking(bookingId, status, sendEmail);
+        });
+    });
+
+    function loadBookings() {
+        const searchQuery = document.getElementById('searchQuery').value;
+        const statusFilter = document.getElementById('statusFilter').value;
+        const dateFrom = document.getElementById('dateFrom').value;
+        const dateTo = document.getElementById('dateTo').value;
+
+        // AJAX request to backend
+        fetch('/api/admin/bookings?' + new URLSearchParams({
+            query: searchQuery,
+            status: statusFilter,
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            page: 0,
+            size: 10
+        }))
+            .then(response => response.json())
+            .then(data => {
+                displayBookings(data);
+                updateStats(data.stats);
+            })
+            .catch(error => console.error('Error loading bookings:', error));
+
+        // For demo purposes, let's add some dummy data
+        const dummyData = {
+            content: [
+                {
+                    bookingId: "550e8400-e29b-41d4-a716-446655440000",
+                    user: { userId: 1, email: "john@example.com", firstName: "John", lastName: "Doe" },
+                    flight: { flightId: 101, flightNumber: "FL123", departure: "New York", arrival: "London", departureTime: "2025-04-10T08:30:00" },
+                    bookingDate: "2025-04-01T10:15:30",
+                    paymentStatus: "Pending",
+                    seatNumber: "12A",
+                    bookingDetails: { passengerName: "John Doe", packageName: "Premium Economy", ticketPrice: 450.00 }
+                },
+                {
+                    bookingId: "550e8400-e29b-41d4-a716-446655440001",
+                    user: { userId: 2, email: "jane@example.com", firstName: "Jane", lastName: "Smith" },
+                    flight: { flightId: 102, flightNumber: "FL456", departure: "London", arrival: "Paris", departureTime: "2025-04-15T12:45:00" },
+                    bookingDate: "2025-04-02T09:20:15",
+                    paymentStatus: "Completed",
+                    seatNumber: "8C",
+                    bookingDetails: { passengerName: "Jane Smith", packageName: "Business Class", ticketPrice: 750.00 }
+                },
+                {
+                    bookingId: "550e8400-e29b-41d4-a716-446655440002",
+                    user: { userId: 3, email: "mike@example.com", firstName: "Mike", lastName: "Johnson" },
+                    flight: { flightId: 103, flightNumber: "FL789", departure: "Paris", arrival: "Rome", departureTime: "2025-04-20T15:10:00" },
+                    bookingDate: "2025-04-01T14:30:45",
+                    paymentStatus: "Cancelled",
+                    seatNumber: "21F",
+                    bookingDetails: { passengerName: "Mike Johnson", packageName: "Economy", ticketPrice: 320.00 }
+                }
+            ],
+            stats: {
+                total: 215,
+                completed: 142,
+                pending: 42,
+                cancelled: 31
+            }
+        };
+
+        displayBookings(dummyData);
+        updateStats(dummyData.stats);
+    }
+
+    function displayBookings(data) {
+        const tableBody = document.getElementById('bookingTableBody');
+        tableBody.innerHTML = '';
+
+        data.content.forEach(booking => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                    <td>${booking.bookingId.substring(0, 8)}...</td>
+                    <td>${booking.user.firstName} ${booking.user.lastName}</td>
+                    <td>${booking.flight.flightNumber}<br><small>${booking.flight.departure} → ${booking.flight.arrival}</small></td>
+                    <td>${booking.bookingDetails.passengerName}</td>
+                    <td>${booking.bookingDetails.packageName}</td>
+                    <td>${formatDate(booking.bookingDate)}</td>
+                    <td><span class="badge ${getStatusBadgeClass(booking.paymentStatus)}">${booking.paymentStatus}</span></td>
+                    <td>$${booking.bookingDetails.ticketPrice.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-details" data-id="${booking.bookingId}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+            tableBody.appendChild(row);
+
+            // Add click event to view details button
+            const viewButton = row.querySelector('.view-details');
+            viewButton.addEventListener('click', () => showBookingDetails(booking));
+        });
+    }
+
+    function showBookingDetails(booking) {
+        // Set values in the modal
+        document.getElementById('detailBookingId').textContent = booking.bookingId;
+        document.getElementById('detailBookingId').setAttribute('data-id', booking.bookingId);
+        document.getElementById('detailUserInfo').innerHTML = `
+                <p><strong>Name:</strong> ${booking.user.firstName} ${booking.user.lastName}</p>
+                <p><strong>Email:</strong> ${booking.user.email}</p>
+            `;
+        document.getElementById('detailPassengerName').textContent = booking.bookingDetails.passengerName;
+        document.getElementById('detailPackageName').textContent = booking.bookingDetails.packageName;
+        document.getElementById('detailFlightInfo').innerHTML = `
+                <p><strong>Flight:</strong> ${booking.flight.flightNumber}</p>
+                <p><strong>Route:</strong> ${booking.flight.departure} → ${booking.flight.arrival}</p>
+                <p><strong>Departure:</strong> ${formatDate(booking.flight.departureTime)}</p>
+            `;
+        document.getElementById('detailSeatNumber').textContent = booking.seatNumber;
+        document.getElementById('detailBookingDate').textContent = formatDate(booking.bookingDate);
+        document.getElementById('detailAmount').textContent = `$${booking.bookingDetails.ticketPrice.toFixed(2)}`;
+        document.getElementById('paymentStatus').value = booking.paymentStatus;
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('bookingDetailModal'));
+        modal.show();
+    }
+
+    function updateBooking(bookingId, status, sendEmail) {
+        // AJAX request to update booking
+        fetch(`/api/admin/bookings/${bookingId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                paymentStatus: status,
+                sendEmail: sendEmail
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('bookingDetailModal'));
+                modal.hide();
+
+                // Reload bookings
+                loadBookings();
+
+                // Show success message
+                alert('Booking updated successfully!');
+            })
+            .catch(error => console.error('Error updating booking:', error));
+    }
+
+    function updateStats(stats) {
+        document.getElementById('totalBookings').textContent = stats.total;
+        document.getElementById('completedBookings').textContent = stats.completed;
+        document.getElementById('pendingBookings').textContent = stats.pending;
+        document.getElementById('cancelledBookings').textContent = stats.cancelled;
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString();
+    }
+
+    function getStatusBadgeClass(status) {
+        switch (status) {
+            case 'Pending':
+                return 'bg-warning';
+            case 'Completed':
+                return 'bg-success';
+            case 'Cancelled':
+                return 'bg-danger';
+            default:
+                return 'bg-secondary';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Booking</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div id="package-details" class="card shadow-sm">
+        <div class="row no-gutters">
+            <div class="col-md-5">
+                <img id="package-img" src="" class="card-img" alt="Package Image" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Unavailable'">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h3 class="card-title" id="package-name">Loading...</h3>
+                    <p class="card-text" id="package-description"></p>
+                    <h4 class="text-success" id="package-price"></h4>
+
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="customer-name">Your Name</label>
+                            <input type="text" class="form-control" id="customer-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-email">Your Email</label>
+                            <input type="email" class="form-control" id="customer-email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Confirm Booking</button>
+                    </form>
+
+                    <div class="alert alert-success mt-3 d-none" id="success-msg">
+                        Booking confirmed successfully!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const packageId = urlParams.get('id');
+
+    // Load packages from backend and find the one with matching ID
+    $.ajax({
+        url: 'http://localhost:8082/api/v1/package/getAll',
+        type: 'GET',
+        success: function(response) {
+            const allPackages = response.data;
+            const selectedPackage = allPackages.find(pkg => pkg.id == packageId);
+
+            if (selectedPackage) {
+                $('#package-img').attr('src', selectedPackage.imagePath).attr('alt', selectedPackage.packageName);
+                $('#package-name').text(selectedPackage.packageName);
+                $('#package-description').text(selectedPackage.description);
+                $('#package-price').text(`$${selectedPackage.price.toFixed(2)}`);
+            } else {
+                $('#package-details').html('<div class="alert alert-danger">Package not found!</div>');
+            }
+        },
+        error: function(err) {
+            console.error('Error fetching package:', err);
+            $('#package-details').html('<div class="alert alert-danger">Failed to load package. Please try again later.</div>');
+        }
+    });
+
+    // Booking form submission
+    $('#booking-form').on('submit', function(e) {
+        e.preventDefault();
+        // Here you can send booking data to your backend
+        $('#success-msg').removeClass('d-none');
+    });
+</script>
+
+</body>
+</html>

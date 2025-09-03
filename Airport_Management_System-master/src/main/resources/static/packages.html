@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Packages - SriLankan Airlines</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Font - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary: #00a1e4;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            padding-top: 80px;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: linear-gradient(135deg, #00a1e4, #0056b3);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .navbar-brand span {
+            color: #ffc107;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+            font-weight: 500;
+        }
+
+        /* Banner */
+        .packages-banner {
+            background: linear-gradient(rgba(0, 65, 120, 0.7), rgba(0, 65, 120, 0.7)),
+            url('https://via.placeholder.com/1920x400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .packages-banner h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .packages-banner p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 0 0 3rem;
+        }
+
+        /* Package cards */
+        .package-card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            border: none;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+
+        .package-card .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .package-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .package-card .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .package-card .card-text {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .package-card .price-tag {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .btn-view-details {
+            background: linear-gradient(135deg, var(--primary), #0056b3);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-view-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            color: white;
+        }
+
+        /* Filter section */
+        .filter-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-section .form-select,
+        .filter-section .form-control {
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn-filter {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+        }
+
+        .btn-reset {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Features section */
+        .features-section {
+            margin: 3rem 0;
+            padding: 3rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-box i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+        }
+
+        .feature-box h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-box p {
+            color: #6c757d;
+        }
+
+        /* Loading spinner */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .spinner-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #d1d7dc;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Pagination */
+        .pagination .page-item .page-link {
+            color: var(--primary);
+            border-radius: 5px;
+            margin: 0 3px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: #343a40;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 3rem 0 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer ul li a:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer .social-icons a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .footer .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!-- Loading Spinner -->
+<div class="spinner-overlay" id="spinnerOverlay">
+    <div class="spinner-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 mb-0">Loading packages...</p>
+    </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <i class="fas fa-plane-departure me-2"></i>SriLankan<span>Airlines</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="packages.html">Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="flightnew.html">Flights</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item ms-lg-3">
+                    <a class="btn btn-outline-light rounded-pill" href="login.html">
+                        <i class="fas fa-user me-2"></i>Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Banner -->
+<div class="packages-banner">
+    <div class="container">
+        <h1>Explore Our Travel Packages</h1>
+        <p>Discover handpicked destinations with exclusive deals on flights, accommodations, and experiences.</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="row align-items-end">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="destination" class="form-label">Destination</label>
+                    <select class="form-select" id="destination">
+                        <option value="">All Destinations</option>
+                        <option value="maldives">Maldives</option>
+                        <option value="thailand">Thailand</option>
+                        <option value="singapore">Singapore</option>
+                        <option value="australia">Australia</option>
+                        <option value="europe">Europe</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="priceRange" class="form-label">Price Range</label>
+                    <select class="form-select" id="priceRange">
+                        <option value="">All Prices</option>
+                        <option value="0-500">$0 - $500</option>
+                        <option value="500-1000">$500 - $1000</option>
+                        <option value="1000-1500">$1000 - $1500</option>
+                        <option value="1500+">$1500+</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label for="duration" class="form-label">Duration</label>
+                    <select class="form-select" id="duration">
+                        <option value="">Any Duration</option>
+                        <option value="1-3">1-3 Days</option>
+                        <option value="4-7">4-7 Days</option>
+                        <option value="8-14">8-14 Days</option>
+                        <option value="15+">15+ Days</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-filter me-2" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-reset" id="resetFilters">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="packageContainer">
+            <!-- Package cards will be dynamically loaded here -->
+            <div class="col-12 text-center py-5" id="loadingMessage">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading packages...</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="my-4">
+            <ul class="pagination justify-content-center" id="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="feature-box">
+                        <i class="fas fa-globe-americas"></i>
+                        <h4>Global Destinations</h4>
+                        <p>Explore over 100 destinations worldwide with our exclusive travel packages.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-box">
+                        <i class="fas fa-tag"></i>
+                        <h4>Best Price Guarantee</h4>
+                        <p>We promise the best rates and will match any lower price you find elsewhere.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-box">
+                        <i class="fas fa-concierge-bell"></i>
+                        <h4>Premium Service</h4>
+                        <p>Enjoy 24/7 customer support and personalized travel assistance.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-box">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Secure Booking</h4>
+                        <p>Book with confidence using our secure payment gateway and get instant confirmation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="bookingModalLabel">Flight Booking</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingForm">
+                    <div class="mb-3">
+                        <label for="bookingDate" class="form-label">Booking Date</label>
+                        <input type="date" class="form-control" id="bookingDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pasName" class="form-label">Passenger Name</label>
+                        <input type="text" class="form-control" id="pasName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email </label>
+                        <input type="text" class="form-control" id="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="flightClass" class="form-label">Class</label>
+                        <select class="form-select" id="flightClass" required>
+                            <option value="Economy">Economy</option>
+                            <option value="Business">Business</option>
+                            <option value="First">First Class</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" class="form-control" id="price" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="paymentMethod" class="form-label">Payment Method</label>
+                        <select class="form-select" id="paymentMethod" required>
+                            <option value="Card">Credit/Debit Card</option>
+                            <option value="BankTransfer">BankTransfer</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seatNumber" class="form-label">Seat Number</label>
+                        <input type="text" class="form-control" id="seatNumber" readonly>
+                    </div>
+                    <input type="hidden" id="packageNameHidden" name="packageName">
+
+                    <button type="submit" class="btn btn-success w-100">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5>SriLankan Airlines</h5>
+                <p>Your gateway to extraordinary travel experiences around the world. Discover comfort, luxury, and reliability with every journey.</p>
+                <div class="social-icons mt-4">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5>Quick Links</h5>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="packages.html">Travel Packages</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5>Travel Resources</h5>
+                <ul>
+                    <li><a href="#">Travel Blog</a></li>
+                    <li><a href="#">Destinations Guide</a></li>
+                    <li><a href="#">Travel Tips</a></li>
+                    <li><a href="#">Visa Information</a></li>
+                    <li><a href="#">COVID-19 Travel Updates</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5>Contact Info</h5>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt me-2"></i> Airline Center, Colombo, Sri Lanka</li>
+                    <li><i class="fas fa-phone me-2"></i> +94 11 2345 6789</li>
+                    <li><i class="fas fa-envelope me-2"></i> info@srilankan.com</li>
+                    <li><i class="fas fa-clock me-2"></i> Mon-Fri: 8AM - 7PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; 2025 SriLankan Airlines. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).on('click', '.btn-view-details', function () {
+        const packageId = $(this).data('id');
+        const packagePrice = $(this).data('price');
+        const packageName = $(this).data('name');
+
+        // Set the modal fields with package data
+        $('#bookingModalLabel').text(`Booking - ${packageName}`);
+        $('#price').val(`$${packagePrice.toFixed(2)}`);
+
+        // Optionally, you can also auto-fill seat number or other data here
+        $('#seatNumber').val('Auto Assigned'); // Replace with real logic if needed
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Load all packages
+        loadPackages();
+
+        // Apply filters button click
+        $('#applyFilters').click(function() {
+            loadPackages();
+        });
+
+        // Reset filters button click
+        $('#resetFilters').click(function() {
+            $('#destination').val('');
+            $('#priceRange').val('');
+            $('#duration').val('');
+            loadPackages();
+        });
+    });
+
+    const seatNumber = generateSeatNumber();
+    $('#seatNumber').val(seatNumber);
+
+
+    function generateSeatNumber() {
+        const row = Math.floor(Math.random() * 30) + 1;
+        const seatLetter = String.fromCharCode(65 + Math.floor(Math.random() * 6)); // A to F
+        return `${row}${seatLetter}`;
+    }
+
+    // Load packages from the API
+    function loadPackages() {
+        showSpinner();
+
+        // Get filter values
+        const destination = $('#destination').val();
+        const priceRange = $('#priceRange').val();
+        const duration = $('#duration').val();
+
+        // In a real application, you would include these filters in the API call
+        // For now, we'll just fetch all packages
+
+        $.ajax({
+            url: 'http://localhost:8082/api/v1/package/getAll',
+            type: 'GET',
+            success: function(response) {
+                hideSpinner();
+                $('#loadingMessage').hide();
+                console.log('Packages loaded successfully:', response.data);
+                displayPackages(response.data);
+            },
+            error: function(error) {
+                hideSpinner();
+                $('#loadingMessage').html('<div class="alert alert-danger">Failed to load packages. Please try again later.</div>');
+                console.error('Error loading packages:', error);
+            }
+        });
+    }
+
+    // Display packages in cards
+    function displayPackages(packages) {
+        const container = $('#packageContainer');
+        container.empty();
+
+        if (packages.length === 0) {
+            container.html(`
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h4>No packages found</h4>
+                            <p>Try adjusting your search filters or check back later for new travel packages.</p>
+                        </div>
+                    </div>
+                `);
+            return;
+        }
+
+        packages.forEach(function(pkg) {
+            // Create a card for each package
+            const card = $(`
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card package-card h-100">
+                            <img src="${pkg.imagePath}" class="card-img-top" alt="${pkg.packageName}" onerror="this.src='https://via.placeholder.com/400x250?text=Explore+${pkg.packageName}'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${pkg.packageName}</h5>
+                                <p class="card-text flex-grow-1">${pkg.description}</p>
+                                <div class="price-tag mb-3">$${pkg.price}</div>
+                              <button id="confirmBtn" class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#bookingModal" data-id="${pkg.id}"  data-name="${pkg.packageName}" onclick="confirmBokkings(this)">Book Now</button>
+
+                            </div>
+                        </div>
+                    </div>
+                `);
+
+            container.append(card);
+        });
+    }
+
+    // Show spinner overlay
+    function showSpinner() {
+        $('#spinnerOverlay').fadeIn(200);
+    }
+
+    // Hide spinner overlay
+    function hideSpinner() {
+        $('#spinnerOverlay').fadeOut(200);
+    }
+</script>
+<script>
+    const flightClass = document.getElementById('flightClass');
+    const priceInput = document.getElementById('price');
+
+    flightClass.addEventListener('change', function () {
+        const selectedClass = this.value;
+        let price = 0;
+
+        if (selectedClass === 'Economy') {
+            price = 30000;
+        } else if (selectedClass === 'Business') {
+            price = 50000;
+        } else if (selectedClass === 'First') {
+            price = 70000;
+        }
+
+        priceInput.value = price;
+    });
+
+    // Optionally set price when the page loads
+    flightClass.dispatchEvent(new Event('change'));
+</script>
+
+<script>
+    function confirmBokkings(button) {
+        const packageId = $(button).data('id');
+        const packageName = $(button).data('name');
+
+        console.log(packageName, "name awa");
+
+        $('#bookingModalLabel').text(`Booking - ${packageName}`);
+        $('#packageNameHidden').val(packageName);
+    }
+
+</script>
+<script src="js/bookingpart.js"></script>
+
+</body>
+</html>

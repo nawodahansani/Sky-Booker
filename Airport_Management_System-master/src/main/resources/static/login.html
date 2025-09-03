@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Airplane Management System</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0a192f;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Sky background with clouds */
+        .sky-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #1a365d, #0a192f);
+            overflow: hidden;
+            z-index: -2;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(10px);
+            opacity: 0.4;
+            animation: float-cloud linear infinite;
+        }
+
+        @keyframes float-cloud {
+            from { transform: translateX(100vw); }
+            to { transform: translateX(-300px); }
+        }
+
+        .cloud-1 {
+            width: 200px;
+            height: 60px;
+            top: 10%;
+            animation-duration: 60s;
+        }
+
+        .cloud-2 {
+            width: 300px;
+            height: 80px;
+            top: 30%;
+            animation-duration: 75s;
+            animation-delay: -20s;
+        }
+
+        .cloud-3 {
+            width: 180px;
+            height: 50px;
+            top: 60%;
+            animation-duration: 45s;
+            animation-delay: -10s;
+        }
+
+        .cloud-4 {
+            width: 250px;
+            height: 70px;
+            top: 80%;
+            animation-duration: 90s;
+            animation-delay: -45s;
+        }
+
+        /* Airplane animations */
+        .airplane {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.6;
+            color: white;
+            animation: fly linear infinite;
+        }
+
+        @keyframes fly {
+            from { transform: translateX(-100px); }
+            to { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        .airplane-1 {
+            top: 15%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+            font-size: 24px;
+            filter: blur(0.5px);
+        }
+
+        .airplane-2 {
+            top: 45%;
+            animation-duration: 25s;
+            animation-delay: -15s;
+            font-size: 18px;
+            filter: blur(0.8px);
+        }
+
+        .airplane-3 {
+            top: 75%;
+            animation-duration: 40s;
+            animation-delay: -25s;
+            font-size: 30px;
+            filter: blur(0.3px);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transform: perspective(1000px);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            animation: container-appear 0.8s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .auth-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            z-index: 1;
+        }
+
+        .auth-container:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes container-appear {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .auth-logo {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #2563eb;
+        }
+
+        .auth-header h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            animation: fade-in-down 0.5s ease 0.2s both;
+        }
+
+        .auth-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            animation: fade-in-down 0.5s ease 0.4s both;
+        }
+
+        @keyframes fade-in-down {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            animation: slide-in-right 0.5s ease both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.3s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes slide-in-right {
+            0% { opacity: 0; transform: translateX(30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #64748b;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: #3b82f6;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(255, 255, 255, 0) 100%
+            );
+            transition: all 0.6s ease;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 35px;
+            animation: fade-in-up 0.5s ease 0.7s both;
+        }
+
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-footer p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .auth-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-footer a:hover {
+            color: #2563eb;
+        }
+
+        .auth-footer a:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .auth-footer a:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body>
+<div class="sky-background">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+</div>
+
+<div class="airplane airplane-1"><i class="fas fa-plane"></i></div>
+<div class="airplane airplane-2"><i class="fas fa-plane"></i></div>
+<div class="airplane airplane-3"><i class="fas fa-plane"></i></div>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <div class="auth-logo">
+            <i class="fas fa-plane-departure"></i>
+        </div>
+        <h3>Welcome Back</h3>
+        <p>Sign in to your flight dashboard</p>
+    </div>
+    <div class="auth-body">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="password-field">
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required />
+                    <span toggle="#password" class="toggle-password fa fa-eye"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" id="loginButton" onclick="loginToDashboard()" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="auth-footer">
+        <p>Don't have an account? <a href="registor.html">Register</a></p>
+    </div>
+</div>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let loginToDashboard = ()=>{
+        console.log("Login form submitted");
+        $.ajax({
+            url: `http://localhost:8082/api/v1/auth/authenticate`,
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                email: $("#email").val(),
+                password: $("#password").val(),
+            }),
+            success: function (response) {
+                console.log(response);
+                localStorage.setItem("jwt_token", response.data.token);
+                localStorage.setItem("user_role", response.data.role); // Store role in local storage
+                console.log("Login successful:", response);
+                window.location.href = "dashboard.html";
+                // $("#loginForm")[0].reset();
+
+                // Redirect based on user role
+                if (response.data.role === "ADMIN") {
+                    window.location.href = "dashboard.html";
+                } else if (response.data.role === "USER") {
+                    window.location.href = "index.html";
+                } else {
+                    alert("Unauthorized role");
+                }
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $(this).prev();
+            if (input.attr("type") === "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+
+
+       /* $("#loginForm").on("submit", function () {
+
+            console.log("Login form submitted");
+            $.ajax({
+                url: "http://localhost:8082/api/v1/auth/authenticate",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    email: $("#email").val(),
+                    password: $("#password").val(),
+                }),
+                success: function (response) {
+                    localStorage.setItem("jwt_token", response.token);
+                    localStorage.setItem("user_role", response.data.role); // Store role in local storage
+                    console.log("Login successful:", response);
+                    window.location.href = "dashboard.html";
+                    $("#loginForm")[0].reset();
+
+                    // Redirect based on user role
+                    if (response.data.role === "ADMIN") {
+                        window.location.href = "dashboard.html";
+                    } else if (response.data.role === "USER") {
+                        window.location.href = "index.html";
+                    } else {
+                        alert("Unauthorized role");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Login failed. Please check your credentials.");
+                    console.error("Error:", error);
+                },
+            });
+        });*/
+    });
+</script>
+</body>
+</html>

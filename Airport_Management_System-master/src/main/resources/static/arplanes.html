@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airplane Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary: #0d6efd;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(to bottom, #343a40, #212529);
+            position: fixed;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar-brand {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand a {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .sidebar-brand a span {
+            color: var(--primary);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu ul li {
+            padding: 0;
+            position: relative;
+        }
+
+        .sidebar-menu ul li a {
+            padding: 15px 25px;
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu ul li a:hover,
+        .sidebar-menu ul li.active a {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .sidebar-menu ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .btn-action {
+            margin-right: 5px;
+        }
+
+        .status-available {
+            color: green;
+        }
+
+        .status-maintenance {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <a href="admin-dashboard.html">SriLankan<span>Airlines</span></a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li >
+                <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="admin-users.html"><i class="fas fa-users"></i> User Management</a>
+            </li>
+            <li>
+                <a href="admin-bookings.html"><i class="fas fa-ticket-alt"></i> Bookings</a>
+            </li>
+            <li>
+                <a href="admin-flights.html"><i class="fas fa-plane"></i> Flight Schedule</a>
+            </li>
+            <li >
+                <a href="editPackage.html"><i class="fas fa-plane"></i>Package Management</a>
+            </li>
+            <li>
+                <a href="admin-email.html"><i class="fas fa-envelope"></i> Email Notifications</a>
+            </li>
+            <li class="active">
+                <a href="arplanes.html"><i class="fas fa-plane"></i> Airplanes</a>
+            </li>
+            <li>
+                <a href="admin-settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+            <li>
+                <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Airplane Management</h1>
+            <p class="text-muted">Manage your fleet of airplanes</p>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <div class="header">
+            <h2 class="text-primary">Airplane Information</h2>
+            <p class="text-muted">Enter the airplane details below</p>
+        </div>
+
+        <form id="airplaneForm">
+            <input type="hidden" id="airplaneId" value="">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="model" class="form-label">Model</label>
+                    <input type="text" class="form-control" id="model" placeholder="Enter model name" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="manufacturer" class="form-label">Manufacturer</label>
+                    <input type="text" class="form-control" id="manufacturer" placeholder="Enter manufacturer name" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="capacity" class="form-label">Capacity</label>
+                    <input type="number" class="form-control" id="capacity" placeholder="Enter capacity" min="0" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" required>
+                        <option value="" selected disabled>Select status</option>
+                        <option value="available">Available</option>
+                        <option value="under_maintenance">Under Maintenance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button type="submit" id="saveBtn" class="btn btn-primary">Save Airplane</button>
+                    <button type="button" id="clearBtn" class="btn btn-secondary ms-2">Clear Form</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <h3 class="mb-4">Airplane List</h3>
+        <div class="table-responsive">
+            <table class="table table-hover" id="airplaneTable">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Model</th>
+                    <th>Manufacturer</th>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Sample data, will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $('#saveBtn').on('click',()=>{
+        const model = $('#model').val();
+        const manufacturer = $('#manufacturer').val();
+        const capacity = $('#capacity').val();
+        const status = $('#status').val();
+
+        const planeData = {
+            model: model,
+            manufacturer: manufacturer,
+            capacity: parseInt(capacity),
+            status: status
+        };
+        console.log("weda weda",planeData)
+        $.ajax({
+            url: `http://localhost:8082/api/v1/plane/save`,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(planeData),
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('jwt_token')
+            },
+            success: function (response) {
+                alert('Airplane added successfully');
+                //location.reload();
+            },
+            error: function (error) {
+                alert('Error adding flight');
+            }
+        });
+
+
+
+    })
+</script>
+
+<!-- Bootstrap JS and dependencies -->
+
+
+</body>
+</html>

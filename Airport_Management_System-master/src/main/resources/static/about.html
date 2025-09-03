@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SriLankan Airlines</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00a1e4;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            padding-top: 80px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: linear-gradient(135deg, #00a1e4, #0056b3);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand span {
+            color: #ffc107;
+            margin-left: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 60vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?airplane,sky');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .breadcrumbs a {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .breadcrumbs a:hover {
+            color: white;
+        }
+
+        .breadcrumbs i {
+            margin: 0 10px;
+            font-size: 0.7rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+        }
+
+        .about-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 0;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-size: 1.05rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), #0077b6);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 161, 228, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: linear-gradient(135deg, #0077b6, var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 161, 228, 0.5);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .services-container {
+            text-align: center;
+        }
+
+        .section-title-center {
+            position: relative;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .section-title-center::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-25px);
+        }
+
+        .services h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            line-height: 1.2;
+            color: var(--dark);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 161, 228, 0.2);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, rgba(0, 161, 228, 0.1), rgba(0, 86, 179, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .service-link {
+            color: var(--primary);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .service-link:hover {
+            color: #0077b6;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 161, 228, 0.9), rgba(0, 86, 179, 0.9)), url('https://source.unsplash.com/1600x900/?airplane,clouds') center/cover no-repeat;
+            color: white;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+
+        .testimonials-container {
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: left;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(0, 161, 228, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-style: italic;
+            z-index: 1;
+            position: relative;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+            color: var(--dark);
+        }
+
+        .author-info p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 161, 228, 0.9), rgba(0, 86, 179, 0.9)), url('https://source.unsplash.com/1600x900/?travel') center/cover no-repeat;
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .cta-btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-logo span {
+            color: var(--warning);
+        }
+
+        .footer-desc {
+            color: #adb5bd;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background-color: var(--warning);
+            bottom: -10px;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links li a {
+            color: #adb5bd;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #6c757d;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .heart-icon {
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-container {
+                flex-direction: column;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="navbar-brand">
+            <i class="fas fa-plane-departure"></i>
+            SriLankan<span>Airlines</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link active">About</a></li>
+            <li><a href="packages.html" class="nav-link">Packages</a></li>
+            <li><a href="flightnew.html" class="nav-link">Flights</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+        <a href="login.html" class="login-btn">
+            <i class="fas fa-user"></i>
+            Login
+        </a>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>About Us</span>
+            </div>
+            <h1>About SriLankan Airlines</h1>
+            <p>Learn about our legacy, values, and commitment to providing exceptional air travel experiences.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about">
+    <div class="container about-container">
+        <div class="about-image">
+            <img src="images/bg_3.jpg" alt="About SriLankan Airlines">
+        </div>
+        <div class="about-content">
+            <p class="section-title">Our Story</p>
+            <h2>A Legacy of Excellence</h2>
+            <p>Founded in 1979, SriLankan Airlines has grown to become a respected name in global aviation. As the flag carrier of Sri Lanka, we take pride in connecting the beautiful island nation to the world, offering an authentic taste of Sri Lankan hospitality from the moment you step on board.</p>
+            <p>Our commitment to excellence, safety, and passenger comfort has earned us numerous accolades throughout our journey. Today, we operate a modern fleet of aircraft to over 60 destinations across Asia, Europe, the Middle East, and beyond.</p>
+            <p>What sets us apart is our dedication to authentic Sri Lankan hospitality – warm, personal, and attentive service that reflects the very best of our island heritage.</p>
+            <a href="#" class="cta-btn">Explore Our History</a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="services">
+    <div class="container services-container">
+        <p class="section-title-center">Our Services</p>
+        <h2>What We Offer</h2>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <h3>Premium Flights</h3>
+                <p>Experience comfort and luxury with our business and economy class services, featuring spacious seating, world-class dining, and personalized attention.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-suitcase"></i>
+                </div>
+                <h3>Travel Packages</h3>
+                <p>Discover our curated travel packages that combine flights, accommodations, and experiences for seamless adventures around the globe.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Onboard Dining</h3>
+                <p>Savor exquisite cuisine inspired by global flavors and Sri Lankan specialties, prepared by our talented chefs using premium ingredients.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h3>Loyalty Program</h3>
+                <p>Join our FlySmiles program and enjoy exclusive benefits, priority services, and reward flights as you collect miles with every journey.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-luggage-cart"></i>
+                </div>
+                <h3>Cargo Services</h3>
+                <p>Reliable and efficient cargo solutions for businesses and individuals, with global coverage and specialized handling options.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer service to assist with bookings, inquiries, and travel changes for a worry-free experience.</p>
+                <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="container stats-container">
+        <div class="stat-box">
+            <div class="stat-number">40+</div>
+            <div class="stat-text">Years of Experience</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-number">60+</div>
+            <div class="stat-text">Global Destinations</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-number">5M+</div>
+            <div class="stat-text">Happy Passengers</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-number">25+</div>
+            <div class="stat-text">Modern Aircraft</div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container testimonials-container">
+        <p class="section-title-center">Testimonials</p>
+        <h2>What Our Passengers Say</h2>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">The cabin crew was exceptional during my flight to Colombo. Their attentiveness and genuine Sri Lankan hospitality made my journey memorable. I'll definitely choose SriLankan Airlines for my future travels.</p>
+                <div class="testimonial-author">
+                    <img src="https://source.unsplash.com/100x100/?person,face" alt="Customer" class="author-img">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Business Traveler</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">As a frequent flyer, I've experienced many airlines, but SriLankan stands out for their comfortable seats and excellent in-flight entertainment. The food was delicious too - a perfect blend of international and Sri Lankan cuisine.</p>
+                <div class="testimonial-author">
+                    <img src="https://source.unsplash.com/100x100/?man,face" alt="Customer" class="author-img">
+                    <div class="author-info">
+                        <h4>David Chen</h4>
+                        <p>Frequent Flyer</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">Our family trip was made so much easier with SriLankan Airlines. The staff went above and beyond to assist with our children, and the special kids' meals were a hit! We felt well taken care of throughout our journey.</p>
+                <div class="testimonial-author">
+                    <img src="https://source.unsplash.com/100x100/?woman,face" alt="Customer" class="author-img">
+                    <div class="author-info">
+                        <h4>Maria Rodriguez</h4>
+                        <p>Family Traveler</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Experience SriLankan Airlines?</h2>
+        <p>Whether you're planning a business trip, family vacation, or solo adventure, let us take you there with comfort and authentic Sri Lankan hospitality.</p>
+        <a href="#" class="cta-btn">Book Your Flight</a>
+        <a href="contact.html" class="cta-btn-outline">Contact Us</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div>
+                <a href="#" class="footer-logo">SriLankan<span>Airlines</span></a>
+                <p class="footer-desc">SriLankan Airlines, the flag carrier of Sri Lanka, offers comfortable connections to destinations across Asia, Europe, the Middle East, and more.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Information</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Best Price Guarantee</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Customer Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Booking Tips</a></li>
+                    <li><a href="#">How it Works</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Contact Info</h3>
+                <ul class="footer-links">
+                    <li><a href="tel:+94112345678"><i class="fas fa-phone-alt"></i> +94 11 234 5678</a></li>
+                    <li><a href="mailto:info@srilankan.com"><i class="fas fa-envelope"></i> info@srilankan.com</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Airline Centre, Bandaranaike International Airport, Katunayake, Sri Lanka</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 SriLankan Airlines. All Rights Reserved. Made with <i class="fas fa-heart heart-icon"></i> in Sri Lanka</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // You can add JavaScript here for any interactive elements
+</script>
+</body>
+</html>
