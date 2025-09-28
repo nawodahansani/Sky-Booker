@@ -31,5 +31,9 @@ Built with **HTML, CSS, Bootstrap, jQuery, and Java (Spring Boot backend)**.
 
 ## 🎥 Demo Video
 Here’s a short demo of the Airplane Management System in action:
+
+[![Watch the video](https://img.youtube.com/vi/--7f6vZmWmU/0.jpg)](https://www.youtube.com/watch?v=--7f6vZmWmU)
+
 ![home page.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2Fhome%20page.png)
-[![Watch the video](https://youtu.be/--7f6vZmWmU)
+
+
