@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SriLankan Airlines Admin Dashboard</title>
+    <title>Sky Booker Admin Dashboard</title>
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
@@ -468,7 +468,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <a href="admin-dashboard.html">SriLankan<span>Airlines</span></a>
+            <a href="admin-dashboard.html">Sky<span>Booker</span></a>
         </div>
         <div class="sidebar-menu">
             <ul>
@@ -524,8 +524,8 @@
                 <div class="user-profile">
                     <img src="images/person_2.jpg" alt="Admin">
                     <div class="user-info">
-                        <h6>Mahesh</h6>
-                        <span>Administrator</span>
+                        <h6>Nawoda</h6>
+                        <span>Admin</span>
                     </div>
                 </div>
             </div>
@@ -644,7 +644,6 @@
                 "Authorization": "Bearer " + localStorage.getItem("jwt_token")
             },
             success: function(response) {
-                alert("awaaa hutto")
                 console.log(response.data)
                 console.log("test",response.data)
                     populateUserTable(response.data);

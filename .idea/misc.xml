@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Airport_Management_System-master/pom.xml" />
+        <option value="$PROJECT_DIR$/Airport_Management_System/pom.xml" />
       </list>
     </option>
   </component>
